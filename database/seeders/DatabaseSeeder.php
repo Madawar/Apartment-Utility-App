@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\House;
+use App\Models\Utility;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,5 +25,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         House::factory(10)->create();
+        Utility::create([
+            'name' => 'Water',
+            'unit' => 'ml',
+            'cost_per_unit' => 10,
+            'charge_cycle' => 'Monthly',
+        ]);
     }
 }

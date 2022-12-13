@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\House;
+use App\Models\Utility;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,7 +19,19 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
 
-    return Inertia('Houses');
+    return Inertia('Houses', [
+        'houses' => House::paginate(5)->through(function ($house) {
+            return [
+                'id' => $house->id,
+                'house_number' => $house->house_number,
+                'tenant' => $house->tenant->name,
+                'remarks' => $house->remarks,
+                'status' => "Status",
+                'created_at' => $house->created_at,
+                'updated_at' => $house->updated_at,
+            ];
+        }),
+    ]);
 });
 
 Route::get('/tenants', function () {
@@ -27,6 +41,13 @@ Route::get('/tenants', function () {
 Route::get('/bills', function () {
 
     return Inertia('Bills');
+});
+
+Route::get('house/reading/{id}', function () {
+
+    return Inertia('Reading', [
+        'utilities' => Utility::all(),
+    ]);
 });
 
 
